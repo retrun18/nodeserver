@@ -1,4 +1,4 @@
-var pathRoot="/home/appleli/GitHub";
+var pathRoot="/home/appleli/github/";
 var http=require('http');
 var fs=require('fs');
 var server=http.createServer(function(req,res)
