@@ -1,4 +1,4 @@
-var pathRoot="D:/documents/GitHub";
+var pathRoot="/home/appleli/GitHub";
 var http=require('http');
 var fs=require('fs');
 var server=http.createServer(function(req,res)
@@ -8,7 +8,7 @@ var server=http.createServer(function(req,res)
 	//客户端输入的URL，例如‘localhost/index.html’
 	//那么这里的URL就为/index.html
 	var filePath=pathRoot+url;
-	console.log(url);
+	//console.log(url);
 	fs.readFile(filePath,function(err,data){
 		if(err){
 			res.writeHeader(404,{'content-type':'text/html;charser="utf-8"'});
@@ -20,5 +20,5 @@ var server=http.createServer(function(req,res)
 			res.end();
 		}
 	})
-}).listen(8888);
-console.log('服务器开启成功！');
+}).listen(8080);
+console.log('服务器开启成功！端口：8080');
