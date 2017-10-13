@@ -8,7 +8,7 @@ var server=http.createServer(function(req,res)
 	//客户端输入的URL，例如‘localhost/index.html’
 	//那么这里的URL就为/index.html
 	var filePath=pathRoot+url;
-	//console.log(url);
+	console.log(filePath);
 	fs.readFile(filePath,function(err,data){
 		if(err){
 			res.writeHeader(404,{'content-type':'text/html;charser="utf-8"'});
