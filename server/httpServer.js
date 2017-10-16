@@ -110,13 +110,19 @@ function ReadConfig(callback)
 
             //获取对应文件的文档类型
             var contentType = this.getContentType(filePath);
-
-            //如果文件名存在
-            fs.exists(filePath,function(exists){
-                if(exists){
-                    response.writeHead(200, {"content-type":contentType,
+			fs.stat(filePath,function(err,stat){
+				if(err)throw err;
+				var lastModified=stat.mtime.toUTCString();
+				if(lastModified===request.headers['if-modified-since'])
+				{
+					response.writeHead(304,"Not Modified");
+					response.end();
+				}else
+				{
+					 response.writeHead(200, {"content-type":contentType,
 					//cache-control:告知客户端资源有效时间
-					"Cache-Control":"max-age="+5*24*60*60*1000
+					//"Cache-Control":"max-age="+5*24*60*60*1000,
+					"Last-Modified": lastModified,
 					});
                     var stream = fs.createReadStream(filePath,{flags:"r",encoding:null});
 					console.log(request.headers['If-Modified-Since']);
@@ -127,6 +133,12 @@ function ReadConfig(callback)
                     });
                     //返回文件内容
                     stream.pipe(response);
+				}
+			});
+            //如果文件名存在
+            fs.exists(filePath,function(exists){
+                if(exists){
+                   
                 }else { //文件名不存在的情况
                     if(hasExt){
                         //如果这个文件不是程序自动添加的，直接返回404
