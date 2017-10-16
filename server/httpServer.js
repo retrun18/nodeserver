@@ -115,6 +115,7 @@ function ReadConfig(callback)
 				var lastModified=stat.mtime.toUTCString();
 				if(lastModified===request.headers['if-modified-since'])
 				{
+					console.log('是最新文件');
 					response.writeHead(304,"Not Modified");
 					response.end();
 				}else
