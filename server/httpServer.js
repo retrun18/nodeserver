@@ -148,7 +148,7 @@ function ReadConfig(callback)
 				{
 					var cacheperiod=5*24*60*60*1000;
 					var expires=new Date();
-				     expires.setTime(new Date(stat.mtime).getMilliseconds()+cacheperiod);
+				     expires.setTime(expires.getTime()+cacheperiod);
 					 response.writeHead(200, {"content-type":contentType,
 					//cache-control:告知客户端资源有效时间
 					"Cache-Control":"max-age="+cacheperiod,
