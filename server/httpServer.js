@@ -111,7 +111,7 @@ function ReadConfig(callback)
             //获取对应文件的文档类型
             var contentType = this.getContentType(filePath);
 			fs.stat(filePath,function(err,stat){
-				if(err)throw err;
+				if(err)console.log(err);
 				var lastModified=stat.mtime.toUTCString();
 				if(lastModified===request.headers['if-modified-since'])
 				{
@@ -121,8 +121,8 @@ function ReadConfig(callback)
 				}else
 				{
 					 response.writeHead(200, {"content-type":contentType,
-					//cache-control:告知客户端资源有效时间5*24*60*60*
-					"Cache-Control":"max-age="+1000,
+					//cache-control:告知客户端资源有效时间
+					"Cache-Control":"max-age="+5*24*60*60*1000,
 					"Last-Modified": lastModified,
 					});
                     var stream = fs.createReadStream(filePath,{flags:"r",encoding:null});
