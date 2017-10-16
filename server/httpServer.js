@@ -119,6 +119,7 @@ function ReadConfig(callback)
 					"Cache-Control":"max-age="+10*365*24*60*60*1000
 					});
                     var stream = fs.createReadStream(filePath,{flags:"r",encoding:null});
+					console.log(filePath);
                     stream.on("error", function() {
                         response.writeHead(500,{"content-type": "text/html"});
                         response.end("<h1>500 Server Error</h1>");
