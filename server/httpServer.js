@@ -147,7 +147,8 @@ function ReadConfig(callback)
 				}else
 				{
 					var cacheperiod=5*24*60*60*1000;
-					var expires=new Date(stat.mtime)+cacheperiod;
+					var expires=new Date();
+					var expires=expires.setTime(new Date(stat.mtime).getMilliseconds()+cacheperiod);
 					console.log(expires);
 					 response.writeHead(200, {"content-type":contentType,
 					//cache-control:告知客户端资源有效时间
