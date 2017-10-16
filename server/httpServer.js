@@ -114,7 +114,10 @@ function ReadConfig(callback)
             //如果文件名存在
             fs.exists(filePath,function(exists){
                 if(exists){
-                    response.writeHead(200, {"content-type":contentType});
+                    response.writeHead(200, {"content-type":contentType,
+					//cache-control:告知客户端资源有效时间
+					"Cache-Control":"max-age="+10*365*24*60*60*1000
+					});
                     var stream = fs.createReadStream(filePath,{flags:"r",encoding:null});
                     stream.on("error", function() {
                         response.writeHead(500,{"content-type": "text/html"});
@@ -165,8 +168,6 @@ function ReadConfig(callback)
                 return contentType.default;
             }
         },
-
-
 		SetMime:function(extname,type)
 			{
 				if(!this.config.mime[extname])
