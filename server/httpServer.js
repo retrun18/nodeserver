@@ -111,7 +111,7 @@ function ReadConfig(callback)
             //获取对应文件的文档类型
             var contentType = this.getContentType(filePath);
 			fs.stat(filePath,function(err,stat){
-				if(err)if(err.code=='ENOENT'){
+				if(err){if(err.code=='ENOENT'){
 					//文件不存在
 					if(hasExt){
                         //如果这个文件不是程序自动添加的，直接返回404
@@ -137,7 +137,7 @@ function ReadConfig(callback)
                         response.writeHead(200, {"content-type": "text/html"});
                         response.end(html);
                     }
-				}else{throw err};
+				}else{throw err}return};
 				var lastModified=stat.mtime.toUTCString();
 				if(lastModified===request.headers['if-modified-since'])
 				{
