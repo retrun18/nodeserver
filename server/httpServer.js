@@ -146,19 +146,18 @@ function ReadConfig(callback)
 					response.end();
 				}else
 				{
+					//有效期
 					var cacheperiod=5*24*60*60*1000;
+					//过期时间
 					var expires=new Date();
 				     expires.setTime(expires.getTime()+cacheperiod);
 					 response.writeHead(200, {"content-type":contentType,
 					//cache-control:告知客户端资源有效时间
 					"Cache-Control":"max-age="+cacheperiod,
-					//资源过期时间
 					"Expires":expires.toUTCString(),
 					"Last-Modified": lastModified,
 					});
                     var stream = fs.createReadStream(filePath,{flags:"r",encoding:null});
-					console.log(request.headers['If-Modified-Since']);
-					console.log(filePath);
                     stream.on("error", function() {
                         response.writeHead(500,{"content-type": "text/html"});
                         response.end("<h1>500 Server Error</h1>");
