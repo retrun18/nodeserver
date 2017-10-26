@@ -80,7 +80,8 @@ function ReadConfig(callback)
          * @param response
          */
         processRequest:function(request,response){
-			var webroot=this.config.webroot;
+					console.log(request.headers.host);
+			var webroots=this.config.webroots;
             var hasExt = true;
             var requestUrl = request.url;
             var pathName = url.parse(requestUrl).pathname;
@@ -106,9 +107,9 @@ function ReadConfig(callback)
             }
 
             //获取资源文件的相对路径
-            var filePath = path.join(webroot,pathName);
+            var filePath = path.join(webroots[request.headers.host],pathName);
 
-            //获取对应文件的文档类型
+            //获取请求的文件的文档类型
             var contentType = this.getContentType(filePath);
 			fs.stat(filePath,function(err,stat){
 				if(err){if(err.code=='ENOENT'){
@@ -137,7 +138,7 @@ function ReadConfig(callback)
                         response.writeHead(200, {"content-type": "text/html"});
                         response.end(html);
                     }
-				}else{throw err}return};
+				}else{throw err}return};	
 				var lastModified=stat.mtime.toUTCString();
 				if(lastModified===request.headers['if-modified-since'])
 				{
