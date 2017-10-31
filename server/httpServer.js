@@ -107,7 +107,11 @@ function ReadConfig(callback)
             }
 
             //获取资源文件的相对路径
-            var filePath = path.join(webroots[request.headers.host],pathName);
+			if(webroots[request.headers.host]){
+            var filePath = path.join(webroots[request.headers.host],pathName);}
+			else{
+				console.log(request.headers.host+" is not existed");
+			}
 
             //获取请求的文件的文档类型
             var contentType = this.getContentType(filePath);
