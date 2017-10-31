@@ -110,7 +110,7 @@ function ReadConfig(callback)
 			if(webroots[request.headers.host]){
             var filePath = path.join(webroots[request.headers.host],pathName);}
 			else{
-				console.log(request.headers.host+" is not existed");
+				console.log(request.headers.host+" is not existed"+new Date().toUTCString());
 			}
 
             //获取请求的文件的文档类型
