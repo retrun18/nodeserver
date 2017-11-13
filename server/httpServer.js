@@ -138,7 +138,6 @@ function ReadConfig(callback)
                                 html += "<div><a  href='"+filename+"'>"+filename+"</a></div>";
                             }
                         }catch (e){
-							console.log(filePath);
                             html += "<h1>您访问的目录不存在</h1>"
                         }
                         response.writeHead(200, {"content-type": "text/html"});
