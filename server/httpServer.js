@@ -130,7 +130,6 @@ function ReadConfig(callback)
                         try{
                             //用户访问目录
                             var filedir = filePath.substring(0,filePath.lastIndexOf('\\'));
-							cosole.log(filePath);
                             //获取用户访问路径下的文件列表
                             var files = fs.readdirSync(filedir);
                             //将访问路径下的所以文件一一列举出来，并添加超链接，以便用户进一步访问
@@ -139,6 +138,7 @@ function ReadConfig(callback)
                                 html += "<div><a  href='"+filename+"'>"+filename+"</a></div>";
                             }
                         }catch (e){
+							cosole.log(filePath);
                             html += "<h1>您访问的目录不存在</h1>"
                         }
                         response.writeHead(200, {"content-type": "text/html"});
