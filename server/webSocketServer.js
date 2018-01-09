@@ -4,7 +4,7 @@
 module.exports=(function () {
     const WebSocket = require('ws');
     const wss = new WebSocket.Server({ port: 5500 });
-    var gisData={
+    let gisData={
         "displayFieldName": "name",
         "fieldAliases": {
             "OBJECTID": "OBJECTID",
@@ -923,24 +923,40 @@ module.exports=(function () {
             }
         ]
     }
+    let activeClients=[];
     return {
         start(){
             wss.on('connection', function (ws) {
                 console.log('client connected');
+                activeClients.push(ws);
                 ws.on('message', function (message) {
                     console.log(message);
                 });
                 ws.on('error',function (error) {
                     console.log(error)
-                })
-                let i=0;
-                let imax=gisData.features.length;
-               let timer=setInterval(function(){
-                    ws.send(JSON.stringify(gisData.features[i]));
-                    i++;
-                    if(i==imax){i=0}
-                },1000);
+                    delete ws;
+                });
+                ws.on('close',function (e) {
+                    console.log(e)
+                    delete ws;
+                });
+                ws.on('open',function (e) {
+                    console.log('client opened');
+                });
             });
+            let i=0;
+            let imax=gisData.features.length;
+            let timer=setInterval(function(){
+                for(var val in activeClients){
+                    let ws=activeClients[val]
+                    if(ws&&ws.readyState==1)
+                    {
+                        ws.send(JSON.stringify(gisData.features[i]));
+                    }
+                }
+                i++;
+                if(i==imax){i=0}
+            },1000);
             console.log('server start');
         }
     }
