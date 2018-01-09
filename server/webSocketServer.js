@@ -930,9 +930,11 @@ module.exports=(function () {
                 console.log('client connected');
                 activeClients.push(ws);
                 ws.on('message', function (message) {
+                    console.log('message:');
                     console.log(message);
                 });
                 ws.on('error',function (error) {
+                    console.log('error:')
                     console.log(error)
                     delete ws;
                 });
