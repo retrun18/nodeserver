@@ -3,7 +3,7 @@
  */
 module.exports=(function () {
     const WebSocket = require('ws');
-    const wss = new WebSocket.Server({ port: 8080 });
+    const wss = new WebSocket.Server({ port: 5500 });
     var gisData={
         "displayFieldName": "name",
         "fieldAliases": {
