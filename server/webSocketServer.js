@@ -939,6 +939,7 @@ module.exports=(function () {
                     delete ws;
                 });
                 ws.on('close',function (e) {
+                    console.log('close:')
                     console.log(e)
                     delete ws;
                 });
