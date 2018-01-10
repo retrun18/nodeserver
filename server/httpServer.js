@@ -46,7 +46,6 @@ function ReadConfig(callback)
                 console.log("[HttpServer][Start]","runing at "+port+"/port");
                 console.timeEnd("[HttpServer][Start]");
             });
-
             httpServer.on("error", function(error) {
                 console.error(error);
             });
@@ -80,7 +79,7 @@ function ReadConfig(callback)
          * @param response
          */
         processRequest:function(request,response){
-					console.log(request.headers.host+"visited at "+new Date().toTimeString());
+					console.log(request.headers.host+" is visited at "+new Date().toTimeString());
 			var webroots=this.config.webroots;
             var hasExt = true;
             var requestUrl = request.url;
