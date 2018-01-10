@@ -927,7 +927,7 @@ module.exports=(function () {
     return {
         start(){
             wss.on('connection', function (ws) {
-                console.log('client connected at '+new Date().now().toTimeString());
+                console.log('client connected at '+new Date().toTimeString());
                 activeClients.push(ws);
                 ws.on('message', function (message) {
                     console.log('message:');

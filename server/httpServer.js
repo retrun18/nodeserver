@@ -80,7 +80,7 @@ function ReadConfig(callback)
          * @param response
          */
         processRequest:function(request,response){
-					console.log(request.headers.host+"visited at "+new Date().now().toTimeString());
+					console.log(request.headers.host+"visited at "+new Date().toTimeString());
 			var webroots=this.config.webroots;
             var hasExt = true;
             var requestUrl = request.url;
