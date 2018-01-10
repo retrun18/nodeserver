@@ -961,7 +961,11 @@ module.exports=(function () {
                     }
                 }
                 i++;
+                j++;
+                k++;
                 if(i==imax){i=0}
+                if(j==imax){j=0}
+                if(k==imax){k=0}
             },1000);
             console.log('server start');
         }
