@@ -927,7 +927,7 @@ module.exports=(function () {
     return {
         start(){
             wss.on('connection', function (ws) {
-                console.log('client connected');
+                console.log('client connected at '+new Date().now().toTimeString());
                 activeClients.push(ws);
                 ws.on('message', function (message) {
                     console.log('message:');
@@ -948,13 +948,16 @@ module.exports=(function () {
                 });
             });
             let i=0;
+            let j=22;
+            let k=44;
             let imax=gisData.features.length;
             let timer=setInterval(function(){
                 for(var val in activeClients){
                     let ws=activeClients[val]
                     if(ws&&ws.readyState==1)
                     {
-                        ws.send(JSON.stringify(gisData.features[i]));
+                        let items=[gisData.features[i],gisData.features[j],gisData.features[k]];
+                        ws.send(JSON.stringify(items));
                     }
                 }
                 i++;
