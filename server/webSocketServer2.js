@@ -947,18 +947,18 @@ module.exports=(function () {
                     console.log('client opened');
                 });
             });
-            let i=0;
+            // let i=0;
             let imax=gisData.features.length;
             let timer=setInterval(function(){
                 for(var val in activeClients){
                     let ws=activeClients[val]
                     if(ws&&ws.readyState==1)
                     {
-                        let items=gisData.features[i];
+                        let items=gisData.features[Math.round(parseInt(Math.random()*imax))];
                         ws.send(JSON.stringify(items));
                     }
                 }
-                if(++i==imax){i=0}
+                // if(++i==imax){i=0}
             },10000);
             function DeleteOldCon(ws) {
                 var index=activeClients.indexOf(ws)
