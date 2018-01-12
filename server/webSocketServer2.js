@@ -4,6 +4,8 @@
 module.exports=(function () {
     const WebSocket = require('ws');
     const wss = new WebSocket.Server({ port: 8090 });
+    //文件系统模块
+    const fs = require("fs");
     let gisData={
         "displayFieldName": "name",
         "fieldAliases": {
@@ -924,49 +926,56 @@ module.exports=(function () {
         ]
     }
     let activeClients=[];
+    let imgbuffer=undefined
     return {
         start(){
-            wss.on('connection', function (ws) {
-                console.log('client connected at '+new Date().toTimeString());
-                activeClients.push(ws);
-                ws.on('message', function (message) {
-                    console.log('message:');
-                    console.log(message);
+            fs.readFile('./files/dog.jpg',(err,buffer)=>{
+                if (err) throw err;
+                imgbuffer=buffer;
+                console.log(buffer)
+                wss.on('connection', function (ws) {
+                    console.log('client connected at '+new Date().toTimeString());
+                    activeClients.push(ws);
+                    ws.on('message', function (message) {
+                        console.log('message:');
+                        console.log(message);
+                    });
+                    ws.on('error',function (error) {
+                        console.log('error:')
+                        console.log(error)
+                        DeleteOldCon(ws);
+                    });
+                    ws.on('close',function (e) {
+                        console.log('closed:')
+                        console.log(e)
+                        DeleteOldCon(ws);
+                    });
+                    ws.on('open',function (e) {
+                        console.log('client opened');
+                    });
                 });
-                ws.on('error',function (error) {
-                    console.log('error:')
-                    console.log(error)
-                    DeleteOldCon(ws);
-                });
-                ws.on('close',function (e) {
-                    console.log('closed:')
-                    console.log(e)
-                    DeleteOldCon(ws);
-                });
-                ws.on('open',function (e) {
-                    console.log('client opened');
-                });
-            });
-            // let i=0;
-            let imax=gisData.features.length;
-            let timer=setInterval(function(){
-                for(var val in activeClients){
-                    let ws=activeClients[val]
-                    if(ws&&ws.readyState==1)
-                    {
-                        let items=gisData.features[Math.round(parseInt(Math.random()*imax))];
-                        ws.send(JSON.stringify(items));
+                // let i=0;
+                let imax=gisData.features.length;
+                let timer=setInterval(function(){
+                    for(var val in activeClients){
+                        let ws=activeClients[val]
+                        if(ws&&ws.readyState==1)
+                        {
+                            let items=gisData.features[Math.round(parseInt(Math.random()*imax))];
+                            items.imgbuffer=imgbuffer;
+                            ws.send(JSON.stringify(items));
+                        }
                     }
+                    // if(++i==imax){i=0}
+                },10000);
+                function DeleteOldCon(ws) {
+                    var index=activeClients.indexOf(ws)
+                    delete  ws;
+                    activeClients[index]=activeClients[activeClients.length-1];
+                    activeClients.pop();
                 }
-                // if(++i==imax){i=0}
-            },10000);
-            function DeleteOldCon(ws) {
-                var index=activeClients.indexOf(ws)
-                delete  ws;
-                activeClients[index]=activeClients[activeClients.length-1];
-                activeClients.pop();
-            }
-            console.log('server start');
+                console.log('server start');
+            });
         }
     }
 })()

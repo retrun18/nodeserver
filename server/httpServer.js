@@ -26,6 +26,7 @@ function SaveObject(obj)
 }
 function ReadConfig(callback)
 {
+    //第二个参数为字符串编码格式，如果不传此参数，则返回原始buffer
 	fs.readFile('./config/httpConfig.json','utf8', (err, data) => {
   if (err) throw err;
   callback(data);
