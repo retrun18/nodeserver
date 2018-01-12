@@ -929,7 +929,7 @@ module.exports=(function () {
     let imgbuffer=undefined
     return {
         start(){
-            fs.readFile('./files/dog.jpg',(err,buffer)=>{
+            fs.readFile('./files/dog.jpg','Base64',(err,buffer)=>{
                 if (err) throw err;
                 imgbuffer=buffer;
                 console.log(buffer)
