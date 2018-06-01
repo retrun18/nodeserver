@@ -80,7 +80,12 @@ function ReadConfig(callback)
          * @param response
          */
         processRequest:function(request,response){
+			try{
 					console.log(request.headers.host+" is visited at "+new Date().toTimeString()+" by ip:'"+response.socket.remoteAddress+"'");
+			}catch(e)
+			{
+				console.log(e)
+			}
 			var webroots=this.config.webroots;
             var hasExt = true;
             var requestUrl = request.url;
